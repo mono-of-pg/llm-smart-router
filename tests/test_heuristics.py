@@ -58,6 +58,27 @@ class TestHeuristicScoring:
         result = score_request(messages)
         assert any("complex" in r.lower() or "keyword" in r.lower() for r in result.reasons)
 
+    def test_german_complex_keywords(self):
+        messages = [{"role": "user", "content": "Analysiere die Vor- und Nachteile und erkläre Schritt für Schritt"}]
+        result = score_request(messages)
+        assert any("keyword" in r.lower() for r in result.reasons)
+        assert result.score >= 0.3
+
+    def test_german_simple_keywords(self):
+        messages = [{"role": "user", "content": "Übersetze das ins Englische: Hallo"}]
+        result = score_request(messages)
+        assert result.score < 0.2
+
+    def test_german_simple_question(self):
+        messages = [{"role": "user", "content": "Was ist die Hauptstadt von Frankreich?"}]
+        result = score_request(messages)
+        assert result.score < 0.2
+
+    def test_german_complex_design_task(self):
+        messages = [{"role": "user", "content": "Entwirf eine umfassende und detaillierte Architektur für eine Microservices-Plattform"}]
+        result = score_request(messages)
+        assert result.score >= 0.3
+
     def test_empty_messages(self):
         result = score_request([])
         assert result.score == 0.0

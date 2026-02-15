@@ -14,27 +14,43 @@ class HeuristicResult:
     confident: bool  # True if heuristics alone can decide the tier
 
 
-# Patterns that suggest higher complexity
+# Patterns that suggest higher complexity (English + German)
 COMPLEX_KEYWORDS = re.compile(
     r"\b("
+    # English
     r"analy[sz]e|compare|contrast|explain\s+in\s+detail|step[- ]by[- ]step|"
     r"implement|architect|design|refactor|optimize|debug|"
     r"write\s+(a\s+)?(complete|full|entire)|"
     r"multi[- ]step|comprehensive|thorough|in[- ]depth|"
-    r"trade[- ]?offs?|pros?\s+and\s+cons?|advantages?\s+and\s+disadvantages?"
+    r"trade[- ]?offs?|pros?\s+and\s+cons?|advantages?\s+and\s+disadvantages?|"
+    # German
+    r"analysiere|vergleiche|erkl[äa]r[e ].*im\s+detail|Schritt\s+f[üu]r\s+Schritt|"
+    r"implementiere|entwirf|entwerfe|optimiere|debugge|"
+    r"schreib[e ].*(?:komplett|vollst[äa]ndig|ganz)|"
+    r"umfassend|gr[üu]ndlich|ausf[üu]hrlich|detailliert|tiefgehend|"
+    r"Vor-?\s*und\s+Nachteile|Abw[äa]gung|Pro\s+und\s+Contra|"
+    r"mehrschrittig|mehrstufig|Architektur|Konzept\s+erstell"
     r")\b",
     re.IGNORECASE,
 )
 
-# Patterns that suggest simple tasks
+# Patterns that suggest simple tasks (English + German)
 SIMPLE_KEYWORDS = re.compile(
     r"\b("
+    # English
     r"translate|summarize|summarise|tldr|tl;dr|"
     r"yes\s+or\s+no|true\s+or\s+false|"
     r"what\s+is|who\s+is|when\s+did|where\s+is|"
     r"define|list|name|count|"
     r"fix\s+(this|the)\s+(typo|spelling|grammar)|"
-    r"convert|format|reformat"
+    r"convert|format|reformat|"
+    # German
+    r"[üu]bersetz[e ]|zusammenfass|fass[e ].*zusammen|"
+    r"ja\s+oder\s+nein|richtig\s+oder\s+falsch|"
+    r"was\s+ist|wer\s+ist|wann\s+war|wo\s+ist|wie\s+hei[ßs]t|"
+    r"definiere|z[äa]hl[e ]|nenne|auflisten|"
+    r"korrigiere\s+(?:den|die|das)\s+(?:Tippfehler|Rechtschreibung|Grammatik)|"
+    r"konvertiere|formatiere|umwandeln"
     r")\b",
     re.IGNORECASE,
 )
