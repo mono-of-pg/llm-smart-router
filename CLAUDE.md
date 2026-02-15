@@ -48,7 +48,7 @@ All source code is in `src/smart_router/`:
 
 ## Key Design Decisions
 
-- Model tier assignment is based on **active parameters** (not total) for MoE models — e.g. `Qwen3-30B-A3B` (30B total, 3B active) is Tier SMALL
+- Model tier assignment is based on **total parameters** for all models including MoE — e.g. `Qwen3-30B-A3B` (30B total) is Tier LARGE
 - Tier boundaries: SMALL ≤8B, MEDIUM ≤27B, LARGE >27B (configurable via env vars)
 - Embedding/OCR/TTS models are automatically excluded from routing
 - If no model exists in the target tier, fallback goes upward first, then downward

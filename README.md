@@ -40,7 +40,7 @@ The router analyzes each incoming request and assigns it to one of three complex
 - **OpenAI-compatible API** — Drop-in replacement, clients just change the URL
 - **Hybrid complexity analysis** — Fast rule-based heuristics with LLM classifier fallback for uncertain cases
 - **Automatic model discovery** — Queries LiteLLM `/v1/models` and categorizes models by parameter count
-- **MoE-aware** — Uses active parameters (not total) for Mixture-of-Experts models (e.g. `Qwen3-30B-A3B` → 3B active → Tier SMALL)
+- **MoE-aware** — Extracts both total and active parameters from MoE model names, uses total parameters for tier assignment (e.g. `Qwen3-30B-A3B` → 30B total → Tier LARGE)
 - **Coder model preference** — Detects code-related requests and prefers specialized coder models
 - **Streaming support** — Passes through SSE streaming responses
 - **Configurable model selection** — YAML config for allowlist/blocklist and tier overrides
@@ -84,8 +84,8 @@ uvicorn smart_router.main:app --reload
 | `LITELLM_API_KEY` | — | API key for LiteLLM |
 | `ROUTER_PORT` | `8000` | Port the router listens on |
 | `LOG_LEVEL` | `info` | Logging level (debug, info, warning, error) |
-| `TIER1_MAX_PARAMS` | `8.0` | Max active params (B) for SMALL tier |
-| `TIER2_MAX_PARAMS` | `27.0` | Max active params (B) for MEDIUM tier |
+| `TIER1_MAX_PARAMS` | `8.0` | Max total params (B) for SMALL tier |
+| `TIER2_MAX_PARAMS` | `27.0` | Max total params (B) for MEDIUM tier |
 | `HEURISTIC_LOW_THRESHOLD` | `0.3` | Score below this → SMALL tier |
 | `HEURISTIC_HIGH_THRESHOLD` | `0.7` | Score above this → LARGE tier |
 | `CLASSIFIER_MODEL` | (auto) | Model for classification; auto-selects smallest if empty |
